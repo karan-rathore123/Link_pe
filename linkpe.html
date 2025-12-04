@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Primary Meta Tags -->
+	<title>LinkPe | UPI LINK Generator</title>
+	<meta name="title" content="LinkPe | UPI LINK Generator">
+	<meta name="description" content="LinkPe | UPI LINK Generator - https://github.com/PtPrashantTripathi/linkpe">
+	<link rel="fluid-icon" href="https://raw.githubusercontent.com/PtPrashantTripathi/linkpe/main/img/linkpe.png"
+		title="PtPrashantTripathi | LinkPe" />
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://ptprashanttripathi.github.io/linkpe">
+	<meta property="og:title" content="LinkPe | UPI LINK Generator">
+	<meta property="og:description"
+		content="LinkPe | UPI LINK Generator - https://github.com/PtPrashantTripathi/linkpe">
+	<meta property="og:image" content="https://raw.githubusercontent.com/PtPrashantTripathi/linkpe/main/img/linkpe.png">
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://ptprashanttripathi.github.io/linkpe">
+	<meta property="twitter:title" content="LinkPe | UPI LINK Generator">
+	<meta property="twitter:description"
+		content="LinkPe | UPI LINK Generator - https://github.com/PtPrashantTripathi/linkpe">
+	<meta property="twitter:image"
+		content="https://raw.githubusercontent.com/PtPrashantTripathi/linkpe/main/img/linkpe.png">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/main.css">
+	<!--Coded by Pt. Prashant Tripathi @ptprashanttripathi on 14th Oct 2020 -->
+
+<body>
+	<center>
+		<div class="card">
+			<div class="card-content">
+				<a href=""><img src="img/logo.png" height="50"></a>
+				<br>
+				<h4 style="color: #DAE0E2;">Create UPI Payment Request Link </h4>
+				<img src="img/upi.png" height="100">
+				<br>
+				<div id="linkpediv" style="display:none;">
+					<textarea class='text-box' rows="4" cols="30" id='linkpeURL'></textarea>
+					<br><br>
+					<a onclick='copyUpiUrl()' class='btn' id='btn-copy'>Copy Link</a>
+					<a id='whatsapp' class="btn">Share Link</a>
+				</div>
+				<form id="linkpeform">
+					<label style="color: #DAE1E2;">Enter Name:</label><br>
+					<input type="name" name="pn" class="text-box" placeholder="Enter your name (Optional):"><br>
+					<label style="color: #DAE1E2;">Enter Upi Id:</label><br>
+					<input type="email" name="pa" class="text-box" placeholder="Enter UPI Id" required><br>
+					<label style="color: #DAE1E2;">Enter Amount (Optional):</label><br>
+					<input type="number" name="am" class="text-box" placeholder="INR"><br>
+					<button type="submit" class="btn">Submit</button>
+				</form>
+				<br>
+				<p style="color: #555">
+					<b>Developed BY : </b>
+					<a href="https://ptprashanttripathi.github.io" style="color: #999;">Pt. Prashant Tripathi</a>
+				</p>
+			</div>
+		</div>
+	</center>
+
+</body>
+<script>
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	const pn = urlParams.get('pn');
+	const pa = urlParams.get('pa');
+	const am = urlParams.get('am');
+	if (pa !== null) {
+		// check prod or dev
+		var linkpeURL = window.location.hostname;
+		if (linkpeURL.includes("localhost")) {
+			console.log("dev");
+			linkpeURL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/index.html`;
+		} else {
+			linkpeURL = `${window.location.protocol}//${window.location.hostname}/linkpe`;
+		}
+
+		linkpeURL += `?pa=${pa}&pn=${pn}&cu=INR`;
+		if (!isNaN(am) && am !== null && am !== "") {
+			linkpeURL += `&am=${am}`;
+		}
+
+		document.getElementById("linkpeURL").innerHTML = linkpeURL;
+		document.getElementById("whatsapp").href = "https://wa.me/?text=Hi%2C%20You%20can%20pay%20me%20by%20this%20Upi%20Payment%20Link%0A%20" + encodeURIComponent(linkpeURL);
+		document.getElementById("linkpediv").style.display = "block";
+		document.getElementById("linkpeform").style.display = "none";
+	}
+	function copyUpiUrl() {
+		var copylinkpe = document.getElementById("linkpeURL");
+		copylinkpe.select();
+		copylinkpe.setSelectionRange(0, 99999)
+		document.execCommand("copy");
+		document.getElementById("btn-copy").innerHTML = "Copied";
+	}
+</script>
+
+
+
+
+
+<!-- START: Return URL handler (paste before </body>) -->
+<script>
+(function () {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const returnUrl = params.get('returnurl'); // the PDF link your site will send
+    if (!returnUrl) return; // nothing to do if missing
+
+    // Create floating action container
+    const container = document.createElement('div');
+    container.style.cssText =
+      'position:fixed;left:12px;right:12px;top:12px;padding:12px;background:#fff9e6;border:1px solid #ffecb3;border-radius:10px;z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:Inter,Arial,sans-serif;';
+
+    container.innerHTML = `
+      <div style="flex:1">
+        <strong style="display:block;color:#8a4b00">After you complete payment in your UPI app — click the button to get your PDF</strong>
+        <div style="font-size:13px;color:#6b6b6b;margin-top:4px">If your UPI app is open, switch back to the browser and press the button below to download.</div>
+      </div>
+      <div style="flex:0">
+        <a id="lp-return-btn" href="#" style="display:inline-block;background:#ffc107;color:#111;padding:10px 14px;border-radius:8px;font-weight:700;text-decoration:none;">I have paid — Get PDF</a>
+      </div>
+    `;
+    document.body.appendChild(container);
+
+    const btn = document.getElementById('lp-return-btn');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      // navigate to the provided Drive link in same tab
+      window.location.href = returnUrl;
+    });
+
+    // When user returns to the tab from the UPI app, bring attention to the button
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        try { container.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+      }
+    });
+
+    // Optional: auto-redirect when user returns (uncomment if you want)
+    /*
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        setTimeout(()=>{ window.location.href = returnUrl; }, 1000);
+      }
+    });
+    */
+  } catch (err) {
+    console.error('returnurl handler error', err);
+  }
+})();
+</script>
+<!-- END: Return URL handler -->
+
+
+
+
+
+
+</html>

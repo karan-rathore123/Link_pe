@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Primary Meta Tags -->
+	<title>LinkPe | UPI LINK Generator</title>
+	<meta name="title" content="LinkPe | UPI LINK Generator">
+	<meta name="description" content="LinkPe | UPI LINK Generator - https://github.com/PtPrashantTripathi/linkpe">
+	<link rel="fluid-icon" href="https://raw.githubusercontent.com/PtPrashantTripathi/linkpe/main/img/linkpe.png"
+		title="PtPrashantTripathi | LinkPe" />
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://ptprashanttripathi.github.io/linkpe">
+	<meta property="og:title" content="LinkPe | UPI LINK Generator">
+	<meta property="og:description"
+		content="LinkPe | UPI LINK Generator - https://github.com/PtPrashantTripathi/linkpe">
+	<meta property="og:image" content="https://raw.githubusercontent.com/PtPrashantTripathi/linkpe/main/img/linkpe.png">
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://ptprashanttripathi.github.io/linkpe">
+	<meta property="twitter:title" content="LinkPe | UPI LINK Generator">
+	<meta property="twitter:description"
+		content="LinkPe | UPI LINK Generator - https://github.com/PtPrashantTripathi/linkpe">
+	<meta property="twitter:image"
+		content="https://raw.githubusercontent.com/PtPrashantTripathi/linkpe/main/img/linkpe.png">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/main.css">
+	<!--Coded by Pt. Prashant Tripathi @ptprashanttripathi on 14th Oct 2020 -->
+
+<body>
+	<center>
+		<div class="card">
+			<div class="card-content">
+				<a href="linkpe.html?new"><img src="img/logo.png" height="50"></a>
+				<h5 id="name" style="color: #101010;">
+					</h4>
+					<canvas id="qr"></canvas>
+					<div style="margin-top: 2px;">
+						<a id="linkpe">
+							<img src="img/upi.png" height="80">
+							<br>
+							<button class='btn'>Click here to Pay Now</button>
+						</a>
+					</div>
+					<br>
+					<a href="linkpe.html?new" style="color: #777;">Click here to create your own payment link</a>
+					<br>
+					<p style="color: #555">
+						<b>Developed BY : </b>
+						<a href="https://ptprashanttripathi.github.io" style="color: #999;">Pt. Prashant
+							Tripathi</a><img src="https://visitor-badge.vercel.app/page/linkpe?color=Blue" />
+
+					</p>
+			</div>
+		</div>
+	</center>
+	<script src="qrious/qrious.min.js"></script>
+	<script>
+		if (window.location.search.indexOf('pa') > -1) {
+			const queryString = window.location.search;
+			const urlParams = new URLSearchParams(queryString);
+			const pn = urlParams.get('pn');
+			const pa = urlParams.get('pa');
+			var user;
+			if (pn !== "") user = pn;
+			else user = pa;
+			const url = 'upi://pay' + queryString;
+			document.getElementById("name").innerHTML = "Click on PayNow or Scan Qr and Pay using any UPI Apps To Pay <br>" + user;
+			document.getElementById("linkpe").href = url;
+			(function () {
+				var qr = new QRious({
+					element: document.getElementById('qr'),
+					background: '#fff',
+					foreground: '#000',
+					size: 200,
+					level: 'H',
+					value: url
+				});
+			})();
+		} else {
+			location.replace("linkpe.html?error");
+		}
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- START: Return URL handler (paste before </body>) -->
+<script>
+(function () {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const returnUrl = params.get('returnurl'); // the PDF link your site will send
+    if (!returnUrl) return; // nothing to do if missing
+
+    // Create floating action container
+    const container = document.createElement('div');
+    container.style.cssText =
+      'position:fixed;left:12px;right:12px;top:12px;padding:12px;background:#fff9e6;border:1px solid #ffecb3;border-radius:10px;z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:Inter,Arial,sans-serif;';
+
+    container.innerHTML = `
+      <div style="flex:1">
+        <strong style="display:block;color:#8a4b00">After you complete payment in your UPI app — click the button to get your PDF</strong>
+        <div style="font-size:13px;color:#6b6b6b;margin-top:4px">If your UPI app is open, switch back to the browser and press the button below to download.</div>
+      </div>
+      <div style="flex:0">
+        <a id="lp-return-btn" href="#" style="display:inline-block;background:#ffc107;color:#111;padding:10px 14px;border-radius:8px;font-weight:700;text-decoration:none;">I have paid — Get PDF</a>
+      </div>
+    `;
+    document.body.appendChild(container);
+
+    const btn = document.getElementById('lp-return-btn');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      // navigate to the provided Drive link in same tab
+      window.location.href = returnUrl;
+    });
+
+    // When user returns to the tab from the UPI app, bring attention to the button
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        try { container.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+      }
+    });
+
+    // Optional: auto-redirect when user returns (uncomment if you want)
+    /*
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        setTimeout(()=>{ window.location.href = returnUrl; }, 1000);
+      }
+    });
+    */
+  } catch (err) {
+    console.error('returnurl handler error', err);
+  }
+})();
+</script>
+<!-- END: Return URL handler -->
+
+
+
+</body>
+
+</html>
